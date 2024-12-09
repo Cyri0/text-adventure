@@ -20,7 +20,7 @@ class PlayerStatus(models.Model):
     player_id = models.CharField(
         max_length=10, 
         unique=True, 
-        default=generate(size=10)
+        default=lambda: generate(size=10)
     )
     current_location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     health = models.IntegerField(default=100)
