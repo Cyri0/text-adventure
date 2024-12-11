@@ -4,6 +4,7 @@ from nanoid import generate
 class Location(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
+    image = models.ImageField(upload_to="static/images/", null=True, blank=True)
 
     def __str__(self):
         return self.name

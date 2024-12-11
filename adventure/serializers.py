@@ -10,7 +10,7 @@ class LocationSerializer(ModelSerializer):
 
     class Meta:
         model = models.Location
-        fields = ['name', 'description', 'choices']
+        fields = ['name', 'description','image', 'choices']
 
 class PlayerCreatorSerializer(ModelSerializer):
     class Meta:

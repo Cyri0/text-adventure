@@ -52,7 +52,6 @@ def choose(request):
         player_status = models.PlayerStatus.objects.get(player_id=player_id)
     except models.PlayerStatus.DoesNotExist:
         return Response({"error": "Játékos nem található."}, status=status.HTTP_404_NOT_FOUND)
-
     try:
         choice = player_status.current_location.choices.get(id=choice_id)
     except models.Choice.DoesNotExist:
