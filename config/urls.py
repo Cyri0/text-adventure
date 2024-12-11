@@ -16,8 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def manual(request):
+    man = {
+       "/api/start/": "GET Új karakter generálása",
+       "/api/state/<str:player_id>" : "GET Meglévő karakter státuszának lekérése",
+       "/api/choose/":"POST Döntéshozás (player_id és choice_id szükséges)"
+    }
+
+    return Response(man)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', manual),
     path('api/', include('adventure.urls'))
 ]
