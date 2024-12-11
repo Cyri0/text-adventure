@@ -37,6 +37,7 @@ def start_game(request):
 def get_state(request, player_id):
     try:
         player_status = models.PlayerStatus.objects.get(player_id = player_id)
+        
         return Response(player_response_builder(player_status.player_id, player_status.current_location, player_status.health, player_status.items), status=status.HTTP_200_OK)
     except:
          return Response({"error": "Játékos nem található"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -53,14 +54,20 @@ def choose(request):
     except models.PlayerStatus.DoesNotExist:
         return Response({"error": "Játékos nem található."}, status=status.HTTP_404_NOT_FOUND)
     try:
-        choice = player_status.current_location.choices.get(id=choice_id)
+        choice = models.Choice.objects.get(id=choice_id)
     except models.Choice.DoesNotExist:
         return Response({"error": "Érvénytelen választás."}, status=status.HTTP_400_BAD_REQUEST)
 
     new_location = choice.next_location
 
     player_status.current_location = new_location
+    player_status.health += choice.health_modify
     player_status.save()
 
+    if(player_status.health <= 0):
+        death = models.Location.objects.get(name="Halál")
+        player_status.health = 0
+        player_status.current_location = death
+        player_status.save()
 
     return Response(player_response_builder(player_status.player_id, new_location, player_status.health, player_status.items), status=status.HTTP_200_OK)

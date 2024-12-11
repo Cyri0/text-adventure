@@ -13,7 +13,7 @@ class Choice(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name="choices")
     text = models.CharField(max_length=255)
     next_location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
-
+    health_modify = models.IntegerField(default=0)
     def __str__(self):
         return f"From {self.location.name}: {self.text}"
 
