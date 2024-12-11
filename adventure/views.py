@@ -69,5 +69,10 @@ def choose(request):
         player_status.health = 0
         player_status.current_location = death
         player_status.save()
+    elif(choice.fight_choice):
+        treasure = models.Location.objects.get(name="Kincs")
+        player_status.current_location = treasure
+        player_status.save()
+
 
     return Response(player_response_builder(player_status.player_id, new_location, player_status.health, player_status.items), status=status.HTTP_200_OK)
